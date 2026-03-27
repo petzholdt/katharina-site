@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Katharina Petzholdt · Freie Autorin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green-dark: #2c4a3e;
+      --green-mid: #3d6b5a;
+      --green-soft: #5a8f7b;
+      --green-light: #a8c5b8;
+      --green-pale: #dceae3;
+      --green-whisper: #f0f6f3;
+      --cream: #faf9f6;
+      --warm-white: #fffefb;
+      --text-dark: #2a2a28;
+      --text-mid: #4a4a46;
+      --text-light: #7a7a74;
+      --accent: #8b6f4e;
+      --accent-light: #c4a77d;
+      --border: #e5e0d8;
+      --serif: 'Lora', Georgia, 'Times New Roman', serif;
+      --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: var(--sans);
+      color: var(--text-dark);
+      background: var(--cream);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(250,249,246,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: box-shadow .3s;
+    }
+    nav.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.9rem 2rem;
+    }
+    .nav-brand {
+      font-family: var(--serif); font-weight: 600; font-size: 1.15rem;
+      color: var(--green-dark); text-decoration: none; letter-spacing: -0.01em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--text-mid); font-size: 0.88rem;
+      font-weight: 500; letter-spacing: 0.02em; transition: color .25s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0;
+      height: 1.5px; background: var(--green-soft); transition: width .3s;
+    }
+    .nav-links a:hover { color: var(--green-dark); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; }
+    .nav-toggle span { display: block; width: 22px; height: 2px; background: var(--text-dark); margin: 5px 0; transition: all .3s; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 8rem 2rem 4rem;
+      background: linear-gradient(175deg, var(--green-whisper) 0%, var(--cream) 50%, var(--warm-white) 100%);
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -10%; right: -5%; width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(168,197,184,0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: ''; position: absolute; bottom: -5%; left: -5%; width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(196,167,125,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 720px; }
+    .hero-photo {
+      width: 160px; height: 160px; border-radius: 50%; margin: 0 auto 2rem;
+      background: var(--green-pale);
+      display: flex; align-items: center; justify-content: center;
+      border: 3px solid white; box-shadow: 0 8px 30px rgba(44,74,62,0.1);
+      overflow: hidden;
+    }
+    .hero-photo svg { width: 60px; height: 60px; opacity: 0.45; }
+    .hero h1 {
+      font-family: var(--serif); font-size: clamp(2.4rem, 5vw, 3.4rem);
+      font-weight: 600; color: var(--green-dark); margin-bottom: 0.5rem;
+      letter-spacing: -0.02em; line-height: 1.15;
+    }
+    .hero .subtitle {
+      font-size: 1.1rem; color: var(--text-light); margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+    .hero .tagline {
+      font-family: var(--serif); font-size: clamp(1.3rem, 3vw, 1.7rem);
+      font-weight: 500; color: var(--text-dark); margin-bottom: 1rem;
+      font-style: italic; line-height: 1.4;
+    }
+    .hero .meta {
+      font-size: 0.92rem; color: var(--text-light); letter-spacing: 0.08em;
+      text-transform: uppercase; font-weight: 400;
+    }
+    .hero .meta span { margin: 0 0.5rem; opacity: 0.4; }
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      animation: bobble 2.5s ease-in-out infinite;
+    }
+    .scroll-hint svg { width: 24px; height: 24px; opacity: 0.3; }
+    @keyframes bobble { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+
+    /* ── SECTIONS ── */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1000px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.15em;
+      color: var(--green-soft); font-weight: 600; margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: var(--serif); font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+      font-weight: 600; color: var(--green-dark); margin-bottom: 0.8rem;
+      letter-spacing: -0.01em;
+    }
+    .section-intro {
+      font-size: 1.05rem; color: var(--text-mid); max-width: 650px;
+      line-height: 1.75; margin-bottom: 3rem;
+    }
+
+    /* ── CATEGORY INTRO CARDS ── */
+    .categories {
+      background: var(--green-whisper);
+      border-top: 1px solid var(--green-pale);
+      border-bottom: 1px solid var(--green-pale);
+    }
+    .cat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .cat-card {
+      background: white; border-radius: 12px; padding: 2rem 1.8rem;
+      border: 1px solid var(--green-pale);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .cat-card:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(44,74,62,0.08); }
+    .cat-icon {
+      width: 44px; height: 44px; border-radius: 10px;
+      background: var(--green-pale); display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+    .cat-icon svg { width: 22px; height: 22px; color: var(--green-dark); }
+    .cat-card h3 {
+      font-family: var(--serif); font-size: 1.2rem; font-weight: 600;
+      color: var(--green-dark); margin-bottom: 0.7rem;
+    }
+    .cat-card p { font-size: 0.92rem; color: var(--text-mid); line-height: 1.65; }
+
+    /* ── WORK SAMPLES ── */
+    .work-section { border-bottom: 1px solid var(--border); }
+    .work-section:last-of-type { border-bottom: none; }
+
+    .work-category-label {
+      display: inline-block; font-size: 0.72rem; text-transform: uppercase;
+      letter-spacing: 0.14em; color: var(--green-soft); font-weight: 600;
+      background: var(--green-whisper); padding: 0.35rem 0.9rem; border-radius: 20px;
+      margin-bottom: 2.5rem;
+    }
+
+    .sample {
+      display: grid; grid-template-columns: 280px 1fr; gap: 2.5rem;
+      margin-bottom: 3rem; padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .sample:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .sample-image {
+      border-radius: 10px; overflow: hidden;
+      aspect-ratio: 4/3; background: var(--green-pale);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .sample-image img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .sample-image .placeholder-icon { opacity: 0.3; }
+    .sample-image .img-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(44,74,62,0.7));
+      color: white; font-size: 0.72rem; padding: 1.5rem 0.8rem 0.6rem;
+      letter-spacing: 0.04em; text-align: center;
+    }
+
+    .sample-content {}
+    .sample-meta {
+      font-size: 0.8rem; color: var(--text-light);
+      margin-bottom: 0.6rem; display: flex; flex-wrap: wrap; gap: 0.4rem;
+      align-items: center;
+    }
+    .sample-meta .pub { font-weight: 500; color: var(--accent); }
+    .sample-meta .sep { opacity: 0.35; }
+    .sample-content h3 {
+      font-family: var(--serif); font-size: 1.35rem; font-weight: 600;
+      color: var(--text-dark); margin-bottom: 0.8rem; line-height: 1.35;
+    }
+    .sample-content .excerpt {
+      font-size: 0.95rem; color: var(--text-mid); line-height: 1.75;
+      margin-bottom: 1.2rem; font-style: italic;
+    }
+    .sample-content .excerpt::before { content: '„'; }
+    .sample-content .excerpt-no-quote {
+      font-size: 0.95rem; color: var(--text-mid); line-height: 1.75;
+      margin-bottom: 1.2rem;
+    }
+
+    .sample-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.88rem; font-weight: 500; color: var(--green-mid);
+      text-decoration: none; transition: color .25s, gap .25s;
+    }
+    .sample-link:hover { color: var(--green-dark); gap: 0.7rem; }
+    .sample-link svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .pdf-note {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.85rem; color: var(--text-light); font-style: italic;
+    }
+    .pdf-note svg { width: 15px; height: 15px; opacity: 0.5; flex-shrink: 0; }
+
+    .more-link-box {
+      margin-top: 1.5rem; padding: 1.2rem 1.5rem;
+      background: var(--green-whisper); border-radius: 8px;
+      border-left: 3px solid var(--green-light);
+    }
+    .more-link-box a {
+      color: var(--green-mid); font-weight: 500; font-size: 0.9rem;
+      text-decoration: none; border-bottom: 1px dashed var(--green-light);
+      transition: border-color .25s;
+    }
+    .more-link-box a:hover { border-color: var(--green-dark); }
+
+    /* ── CONTACT ── */
+    .contact {
+      background: var(--green-soft); color: white; text-align: center;
+    }
+    .contact .section-label { color: var(--green-light); }
+    .contact .section-title { color: white; }
+    .contact-text {
+      font-family: var(--serif); font-size: 1.2rem; font-style: italic;
+      color: var(--green-light); margin-bottom: 0.6rem; line-height: 1.5;
+    }
+    .contact-sub {
+      font-size: 0.95rem; color: rgba(255,255,255,0.65); margin-bottom: 2rem;
+    }
+    .contact-btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: white; color: var(--green-dark);
+      padding: 0.9rem 2.2rem; border-radius: 50px;
+      font-size: 0.95rem; font-weight: 600;
+      text-decoration: none; transition: all .3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+    .contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      background: var(--green-whisper);
+    }
+    .contact-btn svg { width: 18px; height: 18px; }
+
+    /* ── FOOTER / IMPRESSUM ── */
+    footer {
+      background: #1e332b; color: rgba(255,255,255,0.5);
+      padding: 2.5rem 2rem; text-align: center; font-size: 0.82rem;
+    }
+    footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    footer a:hover { color: white; }
+    .footer-inner { max-width: 700px; margin: 0 auto; }
+    .impressum-toggle {
+      background: none; border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.6); padding: 0.5rem 1.2rem;
+      border-radius: 6px; cursor: pointer; font-size: 0.82rem;
+      transition: all .25s; margin-top: 0.8rem;
+    }
+    .impressum-toggle:hover { border-color: rgba(255,255,255,0.35); color: rgba(255,255,255,0.85); }
+    .impressum-content {
+      max-height: 0; overflow: hidden; transition: max-height .4s ease;
+      text-align: left; line-height: 1.7;
+    }
+    .impressum-content.open { max-height: 1200px; margin-top: 1.5rem; padding-bottom: 1.2rem; }
+    .impressum-content h4 { color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; font-size: 0.9rem; }
+    .impressum-content p { margin-bottom: 0.5rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      .cat-grid { grid-template-columns: 1fr; gap: 1rem; }
+      .sample { grid-template-columns: 1fr; gap: 1.5rem; }
+      .sample-image { max-width: 360px; }
+    }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column; gap: 0;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(250,249,246,0.97); backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border); padding: 1rem 2rem;
+      }
+      .nav-links.open a { padding: 0.6rem 0; display: block; }
+      .nav-toggle { display: block; }
+      section { padding: 3.5rem 1.2rem; }
+      .hero { padding: 7rem 1.5rem 3rem; }
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-up {
+      opacity: 0; transform: translateY(25px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">Katharina Petzholdt</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#angebot">Angebot</a></li>
+      <li><a href="#arbeitsproben">Ausgewählte Texte</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menü">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero" id="home">
+  <div class="hero-content fade-up">
+    <div class="hero-photo">
+      <img src="preview/profilbild.jpg" alt="Katharina Petzholdt" style="width:100%; height:100%; object-fit:cover; object-position: center top;">
+    </div>
+    <h1>Katharina Petzholdt</h1>
+    <p class="subtitle">Freie Autorin für Porträts, Gartenratgeber und Kolumnen</p>
+    <p class="tagline">Texte mit Charme und Substanz</p>
+    <p class="meta">Print und Online <span>·</span> Für Redaktionen, Agenturen und Unternehmen</p>
+  </div>
+  <div class="scroll-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+</header>
+
+<!-- ═══ ANGEBOT ═══ -->
+<section class="categories" id="angebot">
+  <div class="container">
+    <p class="section-label fade-up">Was ich anbiete</p>
+    <div class="cat-grid" style="margin-top: 2.5rem;">
+
+      <div class="cat-card fade-up">
+        <div class="cat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Porträts<span style="font-family: var(--sans); font-size: 0.92rem; font-weight: 400; color: var(--text-mid);">, die Träume und Brüche eines Menschen so klar herausdestillieren, dass aus einem Text eine Begegnung wird.</span></h3>
+      </div>
+
+      <div class="cat-card fade-up">
+        <div class="cat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Ratgebertexte<span style="font-family: var(--sans); font-size: 0.92rem; font-weight: 400; color: var(--text-mid);"> rund ums nachhaltige Gärtnern, die Wissen greifbar machen und Lust aufs Loslegen wecken. Von der Anzucht auf der Fensterbank bis zur Gestaltung naturnaher Gärten.</span></h3>
+      </div>
+
+      <div class="cat-card fade-up">
+        <div class="cat-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+        </div>
+        <h3>Kolumnen<span style="font-family: var(--sans); font-size: 0.92rem; font-weight: 400; color: var(--text-mid);">, die im Beiläufigen etwas Größeres entdecken und den Leser mit einer neuen Perspektive und einem Augenzwinkern entlassen.</span></h3>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ARBEITSPROBEN ═══ -->
+<section id="arbeitsproben">
+  <div class="container">
+    <h2 class="section-title fade-up">Ausgewählte Texte</h2>
+
+    <!-- ─── PORTRÄTS ─── -->
+    <div class="work-section">
+      <div class="work-category-label fade-up">Porträts</div>
+
+      <!-- Sample 1 -->
+      <article class="sample fade-up">
+        <div class="sample-image" style="background: #e8ede8;">
+          <img src="preview/judith_rakers_preview.jpg" alt="Vorschau: Das Glück wächst im Garten" loading="lazy">
+          <div class="img-label">Vorschau · Frau im Leben / Daheim</div>
+        </div>
+        <div class="sample-content">
+          <div class="sample-meta">
+            <span class="pub">Frau im Leben / Daheim</span>
+            <span class="sep">—</span>
+            <span>Vierseitiges Porträt</span>
+            <span class="sep">—</span>
+            <span>Ausgabe 6/25</span>
+          </div>
+          <h3>Judith Rakers — Das Glück wächst im Garten</h3>
+          <p class="excerpt">Der hölzerne Klappstuhl steht mitten auf der Weide, auf dem Schoß liegt der Laptop, und zwei Pferde, die ihr hin und wieder über die Schulter blicken, verteilen etwas Stroh auf der Tastatur: Judith Rakers mag solche unkonventionellen Arbeitsplätze.&ldquo;</p>
+          <div class="pdf-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>
+            Vollständiger Artikel als PDF auf Anfrage erhältlich
+          </div>
+        </div>
+      </article>
+
+      <!-- Sample 2 -->
+      <article class="sample fade-up">
+        <div class="sample-image" style="background: #d4e0cc;">
+          <img src="preview/deemter_preview.jpg" alt="Vorschau: Frits Deemter – Der Mann, der Blumen und Bäume kocht" loading="lazy">
+          <div class="img-label">Vorschau · kraut &amp; rüben</div>
+        </div>
+        <div class="sample-content">
+          <div class="sample-meta">
+            <span class="pub">kraut &amp; rüben</span>
+            <span class="sep">—</span>
+            <span>Vierseitiges Porträt</span>
+            <span class="sep">—</span>
+            <span>Ausgabe 9/19</span>
+          </div>
+          <h3>Frits Deemter — Der Mann, der Blumen und Bäume kocht</h3>
+          <p class="excerpt">Die Neugier war zu groß. Frits Deemter wartete bis es dunkel war und kletterte über den Zaun in den Garten des Bürgermeisters. Dort, nahe der französischen Kleinstadt Sisteron, blühte gerade eine Magnolia grandiflora.&ldquo;</p>
+          <div class="pdf-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>
+            Vollständiger Artikel als PDF auf Anfrage erhältlich
+          </div>
+        </div>
+      </article>
+
+      <!-- Sample 3 -->
+      <article class="sample fade-up">
+        <div class="sample-image" style="background: #c8d5d0;">
+          <img src="https://www.dvz.de/fileadmin/_processed_/8/c/csm_23b04512_Aufbau-26_1427_Teilfreisteller_HLO-Jorg-von-Gablenz_ba1677131e.jpg" alt="Humanilog – Helfern helfen" loading="lazy">
+          <div class="img-label">Online-Artikel · DVZ</div>
+        </div>
+        <div class="sample-content">
+          <div class="sample-meta">
+            <span class="pub">DVZ (Deutsche Verkehrs-Zeitung)</span>
+            <span class="sep">—</span>
+            <span>Porträt</span>
+            <span class="sep">—</span>
+            <span>07.11.2023</span>
+          </div>
+          <h3>Die Mission: Helfern helfen</h3>
+          <p class="excerpt">Streng genommen ist die Schließung von Humanilog der größte Wunsch von Benjamin Brich und seinen Kollegen. Für Menschen, die in der Logistikbranche tätig sind, ist das ein ungewöhnliches Ziel. Für eine humanitäre Organisation wie Humanilog &ndash; auch als Humanitarian Logistics Organisation (HLO) bekannt &ndash; ein folgerichtiges.&ldquo;</p>
+          <a href="https://www.dvz.de/unternehmen/logistik/detail/news/die-mission-helfern-helfen.html" target="_blank" rel="noopener" class="sample-link">
+            Zum ganzen Artikel
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
+        </div>
+      </article>
+    </div>
+
+    <!-- ─── RATGEBER ─── -->
+    <div class="work-section" style="margin-top: 3.5rem;">
+      <div class="work-category-label fade-up">Ratgeber- und Servicetexte rund ums (nachhaltige) Gärtnern</div>
+
+      <!-- Sample 4 -->
+      <article class="sample fade-up">
+        <div class="sample-image" style="background: #c8d5c0;">
+          <img src="preview/permakultur_preview.jpg" alt="Vorschau: Permakultur – Gärtnern im Takt der Natur" loading="lazy">
+          <div class="img-label">Vorschau · alverde Magazin</div>
+        </div>
+        <div class="sample-content">
+          <div class="sample-meta">
+            <span class="pub">alverde</span>
+            <span class="sep">—</span>
+            <span>Zweiseitiger Magazinbeitrag</span>
+            <span class="sep">—</span>
+            <span>Ausgabe 4/22</span>
+          </div>
+          <h3>Permakultur — Gärtnern im Takt der Natur</h3>
+          <p class="excerpt">Permakultur ist einer der großen Gartentrends. Kein Wunder, denn das Konzept liefert Antworten auf die Sehnsüchte vieler Menschen. Wer nach ihren Grundlagen und Prinzipien gärtnert, fördert Artenvielfalt, schont Ressourcen, schafft eine Rückverbindung mit der Natur.&ldquo;</p>
+          <div class="pdf-note">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/></svg>
+            Vollständiger Artikel als PDF auf Anfrage erhältlich
+          </div>
+        </div>
+      </article>
+
+      <!-- Sample 5 -->
+      <article class="sample fade-up">
+        <div class="sample-image" style="background: #c8d5d0;">
+          <img src="https://cdn.book-family.de/myhomebook/data/uploads/2026/02/gettyimages-1159907303.jpg" alt="5 DIY- und Upcycling-Ideen für die Anzucht von Pflanzen" loading="lazy">
+          <div class="img-label">Online-Artikel · myHOMEBOOK</div>
+        </div>
+        <div class="sample-content">
+          <div class="sample-meta">
+            <span class="pub">myHOMEBOOK</span>
+            <span class="sep">—</span>
+            <span>Servicetext</span>
+            <span class="sep">—</span>
+            <span>26.02.2026</span>
+          </div>
+          <h3>5 DIY- und Upcycling-Ideen für die Anzucht von Pflanzen</h3>
+          <p class="excerpt-no-quote">Für viele Gärtner beginnt die Gartensaison auf der Fensterbank — mit der Anzucht von Gemüse, Blumen und Kräutern. Wer ohne gekaufte Anzucht-Utensilien auskommen möchte, findet im Gelben Sack oder im Altpapier nützliche Helferchen.</p>
+          <a href="https://www.myhomebook.de/diy/upcycling-anzuchtgefaesse" target="_blank" rel="noopener" class="sample-link">
+            Zum ganzen Artikel
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Sample 6 -->
+      <article class="sample fade-up">
+        <div class="sample-image" style="background: #c8d5d0;">
+          <img src="preview/eicheln_preview.jpg" alt="Kann man Eicheln essen?" loading="lazy">
+        </div>
+        <div class="sample-content">
+          <div class="sample-meta">
+            <span class="pub">myHOMEBOOK</span>
+            <span class="sep">—</span>
+            <span>Ratgebertext</span>
+            <span class="sep">—</span>
+            <span>19.12.2025</span>
+          </div>
+          <h3>Kann man Eicheln essen?</h3>
+          <p class="excerpt">Eicheln werden selten als Lebensmittel wahrgenommen. Ihr Platz ist der Boden unter den Bäumen, nicht die Küche. Ein Blick in Geschichte und Forschung rückt diese Einschätzung zurecht.&ldquo;</p>
+          <a href="https://www.myhomebook.de/pflanzen/kann-man-eicheln-essen" target="_blank" rel="noopener" class="sample-link">
+            Zum ganzen Artikel
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- ─── KOLUMNEN ─── -->
+    <div class="work-section" style="margin-top: 3.5rem;">
+      <div class="work-category-label fade-up">Kolumnen</div>
+
+      <!-- Sample 7 -->
+      <article class="sample fade-up">
+        <div class="sample-image" style="background: #dde3e0;">
+          <img src="preview/rest_ergibt_sich_preview.jpg" alt="Vorschau: Der Rest ergibt sich" loading="lazy">
+          <div class="img-label">Vorschau · ITJ</div>
+        </div>
+        <div class="sample-content">
+          <div class="sample-meta">
+            <span class="pub">ITJ (Internationales Transport Journal)</span>
+            <span class="sep">—</span>
+            <span>Kolumne</span>
+            <span class="sep">—</span>
+            <span>07.06.2024</span>
+          </div>
+          <h3>Der Rest ergibt sich</h3>
+          <p style="font-size:0.88rem; color:var(--text-mid); font-style:italic; margin-bottom:0.3rem;">&bdquo;Wege entstehen dadurch, dass man sie geht.&ldquo;</p>
+          <p style="font-size:0.78rem; color:var(--text-light); margin-bottom:0.9rem;">Franz Kafka (1883&ndash;1924), Autor unter anderem von &bdquo;Die Verwandlung&ldquo;, &bdquo;Das Urteil&ldquo;</p>
+          <p class="excerpt">Jeder Trampelpfad offenbart einen Irrtum. Denn egal wie ausgeklügelt das Wegenetz im öffentlichen Raum auch ist: Wenn die vorhandenen Wege den Bedürfnissen der Menschen nicht gerecht werden, dann suchen sich die Menschen ihre eigenen.&ldquo;</p>
+          <div id="rest-full" style="max-height:0; overflow:hidden; transition: max-height 0.5s ease;">
+            <p style="font-size:0.93rem; color:var(--text-mid); line-height:1.8; margin-top:0.8rem;">So entstehen Trampelpfade. Meist sind es Abkürzungen, die von A nach B führen. Manchmal direkt neben den offiziellen Wegen und manchmal quer durchs städtische Grün.</p>
+            <p style="font-size:0.93rem; color:var(--text-mid); line-height:1.8; margin-top:0.8rem;">Gestalter des öffentlichen Raums begegnen dieser Realität gelegentlich mit einer reaktiven Planung. In den 1970er-Jahren machte der Wiener Architekt Christopher Alexander vor, wie das geht. Er war mit der Campus-Gestaltung der Universität von Oregon beauftragt. Statt die Wege auf dem Gelände am Schreibtisch zu planen, liess er die Studenten und Angestellten der Uni „mit den Füssen abstimmen". Auf dem neu zu gestaltenden Gelände säte er zunächst Rasen. In der darauffolgenden Zeit beobachtete er, wo sich Trampelpfade im Gras bildeten. Diese Pfade wurden befestigt und bildeten so das Wegesystem der Uni, das sowohl der Intuition als auch den Bedürfnissen der Menschen entsprach.</p>
+            <p style="font-size:0.93rem; color:var(--text-mid); line-height:1.8; margin-top:0.8rem;">So wörtlich wie bei dieser kleinen Geschichte hat Franz Kafka das ihm zugeschriebene Zitat „Wege entstehen dadurch, dass man sie geht" kaum gemeint, aber der Grundgedanke wird hier sehr klar: Handlungen formen die Realität. Oftmals meinen wir, dass wir erst den perfekten Plan bräuchten, um ins Handeln zu kommen. Doch manchmal sind erste Schritte als Sprungbrett genug. Es kann ausreichen, die Stellenanzeigen durchzublättern, wenn man unzufrieden ist mit seinem Job. Die ersten Vokabeln zu pauken, wenn man eine neue Sprache erlernen möchte. Oder zügige Spaziergänge zu machen und Lichtschalter nur noch mit den Füssen zu bedienen, wenn man fitter und sportlicher werden möchte. All diese kleinen Schritte können eine Richtung setzen und Wege eröffnen.</p>
+            <p style="font-size:0.93rem; color:var(--text-mid); line-height:1.8; margin-top:0.8rem;">Wenn sich unterwegs jedoch die Umstände oder die eigenen Wünsche ändern, kann ein Richtungswechsel nötig werden. Eine Bekannte von mir hängte ihren Bürojob an den Nagel, um in einer verschlafenen Kleinstadt einen Unverpackt-Laden mit angehängtem Café zu eröffnen. Als immer deutlicher wurde, dass das Umweltbewusstsein der Kleinstädter nicht ausreichte, um den Laden am Laufen zu halten und auch die Touristen, die im Sommer das Städtchen schwemmten, das Unternehmen nicht aus der Misere rausreissen konnten, schwenkte die Betreiberin um. Sie beschränkte sich auf den Café-Betrieb und baute ihn aus.</p>
+            <p style="font-size:0.93rem; color:var(--text-mid); line-height:1.8; margin-top:0.8rem;">Ganz ohne Richtungswechsel schuf sich mein Teenager-Sohn seinen eigenen Weg durch die Wirrungen des Lebens. Er hat vor etwa zwei Jahren sein dauerchaotisches Zimmer aufgeräumt. Er mistete den Kleiderschrank aus, verbannte die letzten Kuscheltiere, leerte seinen Schreibtisch. Man hätte meinen können, dass diese Ordnung von kurzer Dauer sein würde. War sie aber nicht. Sie war ein Anfang von etwas Neuem. Ein paar Tage später richtete er für jedes Schulfach eine eigene beschriftete Ablage ein und fing an, direkt nach der Schule seine Hausaufgaben zu machen und die Schultasche für den nächsten Tag zu packen. Seither liegt bei ihm nichts mehr herum, sein Bett ist immer gemacht und seine Angelzeitschriften liegen fächerförmig ausgebreitet auf seinem kleinen Beistelltisch neben dem Sitzsack. Sein Zimmer ist seitdem der ordentlichste Raum im Haus.</p>
+            <p style="font-size:0.93rem; color:var(--text-mid); line-height:1.8; margin-top:0.8rem;">Das initiale Aufräumen war der erste Schritt auf einem Weg zu einem Ziel, das gar nicht definiert war. Er wollte nicht irgendwo hin, sondern nur von etwas weg.</p>
+            <p style="font-size:0.85rem; color:var(--text-light); line-height:1.75; margin-top:1.2rem; padding-top:1rem; border-top: 1px solid var(--border); font-style:italic;">&laquo;Aus dem Leben&raquo; &ndash; neue Autorin<br>Katharina Petzholdt hat als Teenager in einem kleinen Kästchen Wörter, Formulierungen und Ideen gesammelt. Daraus schöpft die freie Autorin mitunter noch heute, wenn sie über Menschen, Meinungen und das Leben schreibt.</p>
+          </div>
+          <button onclick="const d=document.getElementById('rest-full'); const open=d.style.maxHeight==='none'||d.style.maxHeight>0&&d.style.maxHeight!=='0px'; if(open){d.style.maxHeight='0';}else{d.style.maxHeight=d.scrollHeight+'px'; setTimeout(()=>d.style.maxHeight='none',500);} this.querySelector('span').textContent=open?'Weiterlesen':'Weniger anzeigen';" style="background:none; border:none; cursor:pointer; padding:0; margin-top:0.8rem; display:inline-flex; align-items:center; gap:0.5rem; font-size:0.88rem; font-weight:500; color:var(--green-mid); font-family:var(--sans); transition:color .25s;">
+            <span>Weiterlesen</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="16" height="16"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+          </button>
+        </div>
+      </article>
+
+      <!-- Sample 8 -->
+      <article class="sample fade-up">
+        <div class="sample-image" style="background: #f0ebe0;">
+          <img src="preview/melitta_preview.jpg" alt="Vorschau: Seitensprung mit Melitta-Filter" loading="lazy">
+          <div class="img-label">Vorschau · Frau im Leben / Daheim</div>
+        </div>
+        <div class="sample-content">
+          <div class="sample-meta">
+            <span class="pub">Frau im Leben / Daheim</span>
+            <span class="sep">—</span>
+            <span>Kolumne</span>
+            <span class="sep">—</span>
+            <span>Ausgabe 02/26</span>
+          </div>
+          <h3>Seitensprung mit Melitta-Filter</h3>
+          <p class="excerpt">Kürzlich habe ich meine Kaffeemaschine betrogen. Es passierte an einem ganz normalen Samstag. Ich stand am Morgen in der Küche und betrachtete meine Senseo HD 7865. Seit sieben Jahren drücke ich täglich sanft ihren roten Knopf und freue mich dann über das gleichmäßige Brummen, während sie mir den Kaffee macht. Doch an diesem Morgen war alles anders.&ldquo;</p>
+          <div id="melitta-full" style="max-height:0; overflow:hidden; transition: max-height 0.5s ease;">
+            <p style="font-size:0.93rem; color:var(--text-mid); line-height:1.8; margin-top:0.8rem;">
+              Ich musste plötzlich an den letzten Besuch bei meiner Mutter denken. Sie hatte mir einen Kaffee angeboten, den sie wie immer von Hand aufgoss. Und ich ertappte mich dabei, wie ich fasziniert den Vorgang beobachtete: das zögerliche Rinnen des Kaffees durch den Filter in die Kanne, der Duft, das Warten. Da war plötzlich eine feine Sinnlichkeit, die ich in meinem effizienz-getriebenen Alltag nur selten finde.
+            </p>
+            <p style="font-size:0.93rem; color:var(--text-mid); line-height:1.8; margin-top:0.8rem;">
+              Also drückte ich an diesem Samstag nicht meine Senseo, sondern ging in den Keller. Zwischen Raclette-Ofen, alten Tassen und leeren Marmeladengläsern fand ich ihn: meinen ausgemusterten weißen Porzellanfilter von Melitta. Daneben die passende Kanne. Ich spülte beides ab und stellte den Wasserkocher an. Während das Wasser heiß wurde, erinnerte ich mich daran, wie selbstverständlich ich früher so jeden Morgen Kaffee gemacht hatte. Heute fühlt sich der Aufguss per Hand wie ein kleiner Luxus an, gerade weil er so viel Zeit kostet.
+            </p>
+            <p style="font-size:0.93rem; color:var(--text-mid); line-height:1.8; margin-top:0.8rem;">
+              Langsam goss ich das Wasser über das Kaffeepulver, in kleinen Kreisen. Das Wasser zog an den Rändern der Filtertüte hoch, kleine Blasen stiegen auf, am Rand glänzte der nasse Kaffee dunkel, dann wurde die Oberfläche wieder ruhig. Es war fast wie eine kurze Meditation. Neben mir auf der Arbeitsplatte stand die Senseo ungenutzt und ziemlich vorwurfsvoll da. So als wollte sie sagen: „Ich hätte mit meinen 45 Düsen den Kaffee in 30 Sekunden gemacht!" War für mich und die HD 7865 jetzt das verflixte siebente Jahr gekommen?
+            </p>
+            <p style="font-size:0.93rem; color:var(--text-mid); line-height:1.8; margin-top:0.8rem;">
+              Als mir aus dem Porzellan-Filter der Duft von frischem Kaffee in die Nase stieg, musste ich lächeln. Der Filterkaffee schmeckte wunderbar, aber es ging um mehr als den Genuss – nämlich um das kleine Wunder, das entsteht, wenn man sich Zeit lässt. Nicht alles wird besser, nur weil es schneller geht. Meine Senseo mit ihren Pads darf bleiben. Aber meine Kaffee-Liebe muss sie sich ab sofort mit dem schneeweißen Porzellan-Filter teilen.
+            </p>
+          </div>
+          <button onclick="const d=document.getElementById('melitta-full'); const open=d.style.maxHeight==='none'||d.style.maxHeight>0&&d.style.maxHeight!=='0px'; if(open){d.style.maxHeight='0';}else{d.style.maxHeight=d.scrollHeight+'px'; setTimeout(()=>d.style.maxHeight='none',500);} this.querySelector('span').textContent=open?'Weiterlesen':'Weniger anzeigen';" style="background:none; border:none; cursor:pointer; padding:0; margin-top:0.8rem; display:inline-flex; align-items:center; gap:0.5rem; font-size:0.88rem; font-weight:500; color:var(--green-mid); font-family:var(--sans); transition:color .25s;">
+            <span>Weiterlesen</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" width="16" height="16"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+          </button>
+        </div>
+      </article>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ KONTAKT ═══ -->
+<section class="contact" id="kontakt">
+  <div class="container">
+    <p class="section-label fade-up">Kontakt</p>
+    <h2 class="section-title fade-up">Lust auf gemeinsame Themen,<br>Texte oder Projekte?</h2>
+    <p class="contact-text fade-up">Ich freue mich über Ihre Nachricht.</p>
+    <a href="mailto:autorin@petzholdt.de" class="contact-btn fade-up">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      E-Mail schreiben
+    </a>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-inner">
+    <p>&copy; 2026 Katharina Petzholdt · Freie Autorin</p>
+    <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:0.8rem;">
+      <button class="impressum-toggle" onclick="const imp = document.getElementById('impressum'); const opening = !imp.classList.contains('open'); imp.classList.toggle('open'); this.textContent = opening ? 'Impressum schließen' : 'Impressum anzeigen'; if (opening) { setTimeout(() => imp.scrollIntoView({behavior: 'smooth', block: 'start'}), 50); }">Impressum anzeigen</button>
+      <button class="impressum-toggle" onclick="const ds = document.getElementById('datenschutz'); const opening = !ds.classList.contains('open'); ds.classList.toggle('open'); this.textContent = opening ? 'Datenschutz schließen' : 'Datenschutzerklärung anzeigen'; if (opening) { setTimeout(() => ds.scrollIntoView({behavior: 'smooth', block: 'start'}), 50); }">Datenschutzerklärung anzeigen</button>
+    </div>
+
+    <div class="impressum-content" id="impressum">
+      <h4>Impressum</h4>
+      <p><strong style="color:rgba(255,255,255,0.75)">Katharina Petzholdt</strong></p>
+      <p>Hauptstraße 16a<br>23911 Einhaus</p>
+      <p>E-Mail: <a href="mailto:autorin@petzholdt.de">autorin@petzholdt.de</a><br>Tel.: 0176/99380260</p>
+      <p style="margin-top:0.8rem; font-size:0.78rem; opacity:0.75;">Verantwortlich für journalistisch-redaktionelle Inhalte nach § 18 Abs. 2 MStV:<br>Katharina Petzholdt, Hauptstraße 16a, 23911 Einhaus</p>
+    </div>
+
+    <div class="impressum-content" id="datenschutz">
+      <h4>Datenschutzerklärung</h4>
+      <p style="font-size:0.82rem; opacity:0.8;">Verantwortlich für die Datenverarbeitung auf dieser Website ist:<br>
+      <strong style="color:rgba(255,255,255,0.75)">Katharina Petzholdt</strong><br>
+      Hauptstraße 16a, 23911 Einhaus<br>
+      <a href="mailto:autorin@petzholdt.de">autorin@petzholdt.de</a></p>
+      <p style="font-size:0.82rem; opacity:0.8; margin-top:0.7rem;">Beim Besuch dieser Website werden technisch erforderliche personenbezogene Daten verarbeitet, um die Website bereitzustellen sowie die Sicherheit und Stabilität des Angebots zu gewährleisten.</p>
+      <p style="font-size:0.82rem; opacity:0.65; margin-top:0.7rem;"><strong style="color:rgba(255,255,255,0.7);">Hosting</strong><br>
+      Diese Website wird über GitHub Pages bereitgestellt. Beim Aufruf der Website werden durch den Anbieter technische Zugriffsdaten verarbeitet, insbesondere die IP-Adresse sowie Datum und Uhrzeit des Zugriffs.</p>
+      <p style="font-size:0.82rem; opacity:0.65; margin-top:0.7rem;"><strong style="color:rgba(255,255,255,0.7);">Kontakt per E-Mail</strong><br>
+      Wenn Sie mich per E-Mail kontaktieren, verarbeite ich Ihre Angaben ausschließlich zur Bearbeitung Ihrer Anfrage.</p>
+      <p style="font-size:0.82rem; opacity:0.65; margin-top:0.7rem;"><strong style="color:rgba(255,255,255,0.7);">Externe Links</strong><br>
+      Diese Website enthält Links zu externen Websites. Für deren Inhalte und Datenverarbeitung sind ausschließlich deren Betreiber verantwortlich.</p>
+      <p style="font-size:0.82rem; opacity:0.65; margin-top:0.7rem;"><strong style="color:rgba(255,255,255,0.7);">Ihre Rechte</strong><br>
+      Sie haben im Rahmen der gesetzlichen Vorgaben das Recht auf Auskunft über die betreffenden personenbezogenen Daten sowie auf Berichtigung, Löschung, Einschränkung der Verarbeitung und auf Beschwerde bei einer zuständigen Datenschutzaufsichtsbehörde.</p>
+      <p style="font-size:0.78rem; opacity:0.5; margin-top:0.8rem;">Stand: März 2026</p>
+      <p style="margin-top:0; line-height:1;">&nbsp;</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll shadow
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 30);
+});
+
+// Mobile toggle
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// Close mobile nav on link click
+document.querySelectorAll('.nav-links a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  });
+});
+
+// Fade-up on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
